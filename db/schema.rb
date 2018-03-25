@@ -31,7 +31,6 @@ ActiveRecord::Schema.define(version: 20180223014841) do
     t.string "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_book_lists_on_user_id"
   end
 
   create_table "books", force: :cascade do |t|
@@ -40,8 +39,6 @@ ActiveRecord::Schema.define(version: 20180223014841) do
     t.integer "genre_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["author_id"], name: "index_books_on_author_id"
-    t.index ["genre_id"], name: "index_books_on_genre_id"
   end
 
   create_table "genres", force: :cascade do |t|
@@ -58,8 +55,6 @@ ActiveRecord::Schema.define(version: 20180223014841) do
     t.integer "rating"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["book_id"], name: "index_reviews_on_book_id"
-    t.index ["user_id"], name: "index_reviews_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
