@@ -37,6 +37,7 @@ gem 'pry'
 gem 'cancancan', '~> 2.0'
 gem 'active_model_serializers'
 gem 'pg', '~> 0.21'
+gem 'jquery-rails'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
