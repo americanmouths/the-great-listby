@@ -1,16 +1,19 @@
+
 $(document).ready(function(){
   displayAuthorBooks();
+  authorsIndex();
 })
 
-//authors index
-// function displayAuthors(){
-//   $.get("/authors.json").done(function(data){
-//     $(".js-more").on('click', function(){
-//       var id = $(this).data("id")
-//       debugger;
-//     })
-//   });
-// }
+//author index - got data onto page - it's not formatted but at least got via ajax
+function authorsIndex(){
+  $.get("/authors.json").done(function(data){
+    data.forEach(function(entry){
+      var id = entry.id
+      var name = entry.name
+      $("#title-" + id).text(name)
+    })
+  })
+}
 
 //display books by each author from author index
 function displayAuthorBooks(){
