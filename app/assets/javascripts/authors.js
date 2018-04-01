@@ -1,7 +1,8 @@
-
 $(document).ready(function(){
-  displayAuthorBooks();
+  hideAuthorLink();
   authorsIndex();
+  displayAuthorBooks();
+  authorShowPage();
 })
 
 //author index - got data onto page - it's not formatted but at least got via ajax
@@ -15,14 +16,30 @@ function authorsIndex(){
   })
 }
 
+//hide more info about author link on author index until button click
+function hideAuthorLink(){
+  $("#author_link").hide()
+}
+
 //display books by each author from author index
 function displayAuthorBooks(){
   $(".js-more").on('click', function(){
+    $("#author_link").show();
     var id = $(this).data("id")
     $.get("/authors/" + id + ".json", function(data){
       var books = data["books"]
       var bookTitles = books.map(book => book.title)
       $("#body-" + id).text(bookTitles)
+    })
+  })
+}
+
+//function for when "more info about author" is clicked - should go to show page
+function authorShowPage(){
+  $("a.author_show").on('click', function(e){
+    e.preventDefault();
+    $.get(this.href + ".json", function(data){
+      console.log(data)
     })
   })
 }
