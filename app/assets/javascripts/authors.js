@@ -4,11 +4,16 @@ $(document).ready(function(){
   displayAuthorBooks();
   authorShowPage();
   showNextAuthor();
+  authorHomeLink();
 })
+
+// document.addEventListener("DOMContentLoaded", function(event){
+//   console.log(event)
+// })
 
 //author index - got data onto page - it's not formatted but at least got via ajax
 function authorsIndex(){
-  $.get("/authors.json").done(function(data){
+  $.getJSON("/authors").done(function(data){
     data.forEach(function(entry){
       var id = entry.id
       var name = entry.name
@@ -19,14 +24,20 @@ function authorsIndex(){
 
 // prevent html display from home page link
 function authorHomeLink(){
-  $("#author_index").on('click', function(e){
+  $("a.author_index").on('click', function(e){
     e.preventDefault();
-    authorsIndex();
+    $.getJSON(this.href, function(data){
+      data.forEach(function(entry){
+        var id = entry.id
+        var name = entry.name
+        $("#title-" + id).text(name)
+      })
+    })
   })
 }
 //hide more info about author link on author index until button click
 function hideAuthorLink(){
-  $("#author_link").hide()
+  $("div#author_link").hide()
 }
 
 //display books by each author from author index
