@@ -3,7 +3,7 @@
     <h1>
       <u> The Great Listby </u>
       </h1>
-        <%= link_to "Home", root_path %> | <%= link_to "All Books", books_path %> | <%= link_to "All Authors", authors_path %> | <%= link_to "All Genres", genres_path %>
+        <%= link_to "Home", root_path %> | <%= link_to "All Books", books_path %> | <%= link_to "All Authors", authors_path, class: "author_index" %> | <%= link_to "All Genres", genres_path %>
         <% if current_user %>
           |  <%= link_to "New Book List", new_book_list_path %> | <%= link_to "Your book lists", book_lists_path %> | <%= link_to "Your reviews", users_reviews_path(current_user) %></a>
           | <%= link_to "Highest Rated Books", users_highest_rated_books_path(current_user) %> | <%= link_to "Lowest Rated Books", users_lowest_rated_books_path(current_user) %></a>
