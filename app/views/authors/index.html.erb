@@ -1,6 +1,6 @@
 <h2>Authors</h2>
 <% @authors.all.each do |author| %>
-  <li id="title-<%= author.id %>"></li>
+  <h2 id="title-<%= author.id %>"></h2>
   <div id="body-<%= author.id %>"></div>
   <div id="author_link">
     <%= link_to "More about the author", author_path(author.id), class: "author_show" %>
