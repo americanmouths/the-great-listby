@@ -36,10 +36,15 @@ function displayAuthorBooks(){
 
 //function for when "more info about author" is clicked - should go to show page
 function authorShowPage(){
-  $("a.author_show").on('click', function(e){
-    e.preventDefault();
+  $("a.author_show").on('click', function(){
     $.get(this.href + ".json", function(data){
-      console.log(data)
+      var id = data["id"]
+
+      var bookLis = data["books"].map(function (book){
+        return "<li>" + book + "</li>"}).join('');
+
+        $(".authorName").text(data["name"]);
+        $("#books-" + id).html(bookLis)
+      })
     })
-  })
-}
+  }

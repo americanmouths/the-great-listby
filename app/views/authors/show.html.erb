@@ -1,6 +1,9 @@
-<h2>Books by <%= @author.name %></h2>
-<ul>
+<h2 class="authorName">Books by <%= @author.name %></h2>
+<ol>
 <% @author.books.each do |book| %>
-  <li><%= link_to book.title, book_path(book) %></li>
+  <div class="books-<%= @author.id %>">
+    <%= link_to book.title, book_path(book.id) %>
+  </div>
 <% end %>
-</ul>
+</ol>
+<a href="#" class="js-next" data-id="<%=@author.id%>"> Next Author</a>
