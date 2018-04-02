@@ -8,7 +8,7 @@ class AuthorsController < ApplicationController
   end
 
   def show
-    @author = Author.find_by(id: params[:id])
+    @author = Author.find(params[:id])
     respond_to do |format|
       format.html { render :show }
       format.json { render json: @author }
