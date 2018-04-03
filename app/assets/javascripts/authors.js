@@ -44,6 +44,28 @@ function displayBooks(){
   })
 }
 
+//render each book
+function renderBooks(bookData){
+  var authorId = bookData.id
+bookData["books"].forEach(function(book){
+    let newBook = new Book(book)
+    let bookHTML = newBook.showTemplate()
+    $("#authors_books-" + authorId).append(bookHTML)
+  })
+}
+
+//Book Constructor
+function Book(bookData) {
+  this.id = bookData.id
+  this.title = bookData.title
+}
+
+//Book prototype
+Book.prototype.showTemplate = function(){
+  let bookHTML = `<ul><a href="/books/${this.id}"><li>${this.title}</li></a></ul>`
+  return bookHTML
+}
+
 //  function homeLink(){
 //   $(document).on('click', '.author_index', function(e){
 //     e.preventDefault()
