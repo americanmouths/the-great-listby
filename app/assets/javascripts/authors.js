@@ -34,6 +34,16 @@ function authorsIndex(){
   })
 }
 
+////DISPLAY BOOKS WITH AJAX ON SAME INDEX PAGE/////
+function displayBooks(){
+  $(document).on('click', '.displayBooks', function(e){
+    e.preventDefault();
+    $("#books_container").html('')
+    let id = $(this).attr('data-id')
+    $.getJSON(`/authors/${id}.json`, renderBooks)
+  })
+}
+
 //  function homeLink(){
 //   $(document).on('click', '.author_index', function(e){
 //     e.preventDefault()
