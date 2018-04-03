@@ -1,9 +1,12 @@
 <h2>Authors</h2>
+
 <% @authors.all.each do |author| %>
-  <h2 id="title-<%= author.id %>"></h2>
-  <div id="body-<%= author.id %>"></div>
-  <div id="author_link">
-    <%= link_to "More about the author", author_path(author.id), class: "author_show" %>
-  </div>
-  <button class="js-more" data-id="<%= author.id %>">Books By This Author</button>
+  <div id="books-<%= author.id %>"></div>
 <% end %>
+
+
+<div id="authors_container">
+</div>
+
+<div id="books_container">
+</div>
