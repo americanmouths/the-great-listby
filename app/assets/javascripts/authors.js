@@ -1,8 +1,3 @@
-$(document).ready(function(){
-  authorsIndex();
-  displayBooks();
-})
-
 ///////DISPLAYING INDEX///////
 
 //Author constructor
@@ -12,15 +7,20 @@ function Author(authorData){
   this.books = authorData.books
 }
 
-//Author prototype
+//Author prototypes
 Author.prototype.indexTemplate = function() {
-  let authorHTML = `<a href="/authors/${this.id}" data-id="${this.id}" class="author_show">
+  let authorHTML = `<a href="/authors/${this.id}" data-id="${this.id}" class="author-show">
   <h2><u>${ this.name }</u></h2>
   </a>
   <div id="authors_books-${this.id}"></div>
   <ul><a href="#" data-id="${this.id}" class="displayBooks" id="books-${this.id}">See Books</a></ul>
   `
   return authorHTML
+}
+
+Author.prototype.showTemplate = function() {
+  let authorShowHTML = `<h2>${this.name}</h2>`
+  return authorShowHTML
 }
 
 //Author Index
@@ -44,7 +44,7 @@ function displayBooks(){
   })
 }
 
-//render each book
+//Render each book & hide see book link on click
 function renderBooks(bookData){
   var authorId = bookData.id
 bookData["books"].forEach(function(book){
@@ -67,21 +67,24 @@ Book.prototype.showTemplate = function(){
   return bookHTML
 }
 
-//  function homeLink(){
-//   $(document).on('click', '.author_index', function(e){
-//     e.preventDefault()
-//   })
-// }
+//////NEXT AUTHOR VIA SHOW PAGE/////
+$(function (){
+  $(".js-next").on("click", function(e){
+    e.preventDefault();
+    $("#authorName").html('');
+    var nextId = parseInt($(".js-next").attr("data-id")) + 1;
+    $.get("/authors/" + nextId + ".json", function(data){
+      $("#authorName").text(data["name"])
+    })
+  })
+})
 
-// // document.addEventListener("DOMContentLoaded", function(event){
-// //   console.log(event)
-// // })
+$(document).ready(function(){
+  authorsIndex();
+  displayBooks();
+})
 
-// //hide more info about author link on author index until button click
-// function hideAuthorLink(){
-//   $("div#author_link").hide()
-// }
-//
+
 
 // //function for showing next author on next author click
 // function showNextAuthor(){

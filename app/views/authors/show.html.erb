@@ -1,4 +1,4 @@
-<h2 class="authorName">Books by <%= @author.name %></h2>
+<h2>Books by <div id="authorName"></div><%= @author.name %></h2>
 <ol>
 <% @author.books.each do |book| %>
   <div class="books-<%= @author.id %>">
@@ -6,4 +6,5 @@
   </div>
 <% end %>
 </ol>
+<div id="authorName"></div>
 <a href="#" class="js-next" data-id="<%= @author.id %>"> Next Author</a>
