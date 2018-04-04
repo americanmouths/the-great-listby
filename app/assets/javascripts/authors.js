@@ -18,7 +18,7 @@ Author.prototype.indexTemplate = function() {
   <h2><u>${ this.name }</u></h2>
   </a>
   <div id="authors_books-${this.id}"></div>
-  <ul><li><a href="#" data-id="${this.id}" class="displayBooks">See Books</a></li></ul>
+  <ul><a href="#" data-id="${this.id}" class="displayBooks" id="books-${this.id}">See Books</a></ul>
   `
   return authorHTML
 }
@@ -51,6 +51,7 @@ bookData["books"].forEach(function(book){
     let newBook = new Book(book)
     let bookHTML = newBook.showTemplate()
     $("#authors_books-" + authorId).append(bookHTML)
+    $("a#books-" + authorId).hide();
   })
 }
 
