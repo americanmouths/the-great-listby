@@ -18,11 +18,6 @@ Author.prototype.indexTemplate = function() {
   return authorHTML
 }
 
-Author.prototype.showTemplate = function() {
-  let authorShowHTML = `<h2>${this.name}</h2>`
-  return authorShowHTML
-}
-
 //Author Index
 function authorsIndex(){
   $.getJSON("/authors").done(function(data){
@@ -38,7 +33,6 @@ function authorsIndex(){
 function displayBooks(){
   $(document).on('click', '.displayBooks', function(e){
     e.preventDefault();
-    $("#books_container").html('')
     let id = $(this).attr('data-id')
     $.getJSON(`/authors/${id}.json`, renderBooks)
   })
@@ -47,7 +41,7 @@ function displayBooks(){
 //Render each book & hide see book link on click
 function renderBooks(bookData){
   var authorId = bookData.id
-bookData["books"].forEach(function(book){
+  bookData["books"].forEach(function(book){
     let newBook = new Book(book)
     let bookHTML = newBook.showTemplate()
     $("#authors_books-" + authorId).append(bookHTML)
@@ -71,10 +65,10 @@ Book.prototype.showTemplate = function(){
 $(function (){
   $(".js-next").on("click", function(e){
     e.preventDefault();
-    $("#authorName").html('');
     var nextId = parseInt($(".js-next").attr("data-id")) + 1;
     $.get("/authors/" + nextId + ".json", function(data){
       $("#authorName").text(data["name"])
+      $(".js-next").attr("data-id", data["id"]);
     })
   })
 })
@@ -84,7 +78,20 @@ $(document).ready(function(){
   displayBooks();
 })
 
-
+//ajax req for all authors link on homepage
+$(function (){
+  $(document).on('click', 'a.author_index', function(){
+    $.get("/authors").done(function(){
+      $.getJSON("/authors").done(function(data){
+        data.forEach(function(author){
+          let newAuthor = new Author(author)
+          let authorHTML = newAuthor.indexTemplate()
+          $("#authors_container").append(authorHTML)
+        })
+      })
+    })
+  })
+})
 
 // //function for showing next author on next author click
 // function showNextAuthor(){
