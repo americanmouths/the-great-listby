@@ -7,7 +7,7 @@ function Author(authorData){
   this.books = authorData.books
 }
 
-//Author prototypes
+//Author Index Prototype
 Author.prototype.indexTemplate = function() {
   let authorHTML = `<a href="/authors/${this.id}" data-id="${this.id}" class="author-show">
   <h2><u>${ this.name }</u></h2>
@@ -15,6 +15,12 @@ Author.prototype.indexTemplate = function() {
   <div id="authors_books-${this.id}"></div>
   <ul><a href="#" data-id="${this.id}" class="displayBooks" id="books-${this.id}">See Books</a></ul>
   `
+  return authorHTML
+}
+
+//Author Show Prototype
+Author.prototype.showTemplate = function() {
+  let authorHTML = `<u>${ this.name }</u>`
   return authorHTML
 }
 
@@ -65,9 +71,30 @@ Book.prototype.showTemplate = function(){
 $(function (){
   $(".js-next").on("click", function(e){
     e.preventDefault();
+
+    //clear all divs
+    document.getElementById("htmlAuthorName").innerHTML = ""
+    document.getElementById("authorName").innerHTML = ""
+    document.getElementById("htmlAuthorBooks").innerHTML = ""
+    document.getElementById("authors_books").innerHTML = ""
+
+    //get next author id
     var nextId = parseInt($(".js-next").attr("data-id")) + 1;
     $.get("/authors/" + nextId + ".json", function(data){
-      $("#authorName").text(data["name"])
+
+      //append author name
+      var newAuthor = new Author(data)
+      var authorHTML = newAuthor.showTemplate()
+      $("#authorName").append(authorHTML)
+
+      //append author books
+      data["books"].forEach(function(book){
+        let newBook = new Book(book)
+        let bookHTML = newBook.showTemplate()
+        $("#authors_books").append(bookHTML)
+      })
+
+      //reset id
       $(".js-next").attr("data-id", data["id"]);
     })
   })
@@ -78,7 +105,8 @@ $(document).ready(function(){
   displayBooks();
 })
 
-//ajax req for all authors link on homepage
+
+//LINK IN HEADER FOR ALL AUTHORS FIRING AJAX REQ
 $(function (){
   $(document).on('click', 'a.author_index', function(){
     $.get("/authors").done(function(){
@@ -92,18 +120,3 @@ $(function (){
     })
   })
 })
-
-// //function for showing next author on next author click
-// function showNextAuthor(){
-//   $(".js-next").on("click", function(e){
-//     e.preventDefault();
-//     var nextId = parseInt($(".js-next").attr("data-id")) + 1;
-//     $.get("/authors/" + nextId + ".json", function(data){
-//       $(".authorName").text(data["name"])
-//       // var bookLis = data["books"].map(function (book){
-//       // return "<li>" + book["title"] + "</li>"}).join('');
-//       // $("#books-" + nextId).html(bookLis)
-//       $(".js-next").attr("data-id", data["id"]);
-//     })
-//   })
-// }
