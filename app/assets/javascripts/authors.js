@@ -6,9 +6,9 @@ $(document).ready(function(){
   authorsShow();
 })
 
-///////DISPLAYING INDEX///////
+///////AUTHOR INDEX///////
 
-//Author constructor
+//Author Constructor
 function Author(authorData){
   this.id = authorData.id
   this.name = authorData.name
@@ -32,13 +32,28 @@ Author.prototype.showTemplate = function() {
   return authorHTML
 }
 
+function appendAuthorIndex(data){
+  data.forEach(function(author){
+    let newAuthor = new Author(author)
+    let authorHTML = newAuthor.indexTemplate()
+    $("#authors_container").append(authorHTML)
+  })
+}
+
 //Author Index
 function authorsIndex(){
   $.getJSON("/authors").done(function(data){
-    data.forEach(function(author){
-      let newAuthor = new Author(author)
-      let authorHTML = newAuthor.indexTemplate()
-      $("#authors_container").append(authorHTML)
+    appendAuthorIndex(data)
+    })
+  }
+
+//Author Index via LINK in NAV bar
+function authorsIndexLink(){
+  $(document).on('click', 'a.author_index', function(){
+    $.get("/authors").done(function(){
+      $.getJSON("/authors").done(function(data){
+        appendAuthorIndex(data)
+      })
     })
   })
 }
@@ -75,77 +90,57 @@ Book.prototype.showTemplate = function(){
   return bookHTML
 }
 
-//////NEXT AUTHOR VIA SHOW PAGE/////
-function nextAuthor(){
-  $(document).on('click', '.js-next', function(e){
-    e.preventDefault();
+//////AUTHOR SHOW////////
 
-    //clear all divs
-    document.getElementById("htmlAuthorName").innerHTML = ""
-    document.getElementById("authorName").innerHTML = ""
-    document.getElementById("htmlAuthorBooks").innerHTML = ""
-    document.getElementById("authors_books").innerHTML = ""
+//Append Author Name to Show Page
+function appendAuthorName(data){
+  var newAuthor = new Author(data)
+  var authorHTML = newAuthor.showTemplate()
+  $("#authorName").append(authorHTML)
+}
 
-    //get next author id
-    var nextId = parseInt($("a.js-next").attr("data-id")) + 1;
-    $.get("/authors/" + nextId + ".json", function(data){
-
-      //append author name
-      var newAuthor = new Author(data)
-      var authorHTML = newAuthor.showTemplate()
-      $("#authorName").append(authorHTML)
-
-      //append author books
-      data["books"].forEach(function(book){
-        let newBook = new Book(book)
-        let bookHTML = newBook.showTemplate()
-        $("#authors_books").append(bookHTML)
-      })
-
-      //reset id
-      $("a.js-next").attr("data-id", data["id"]);
-    })
+//Append Author Books to Show Page
+function appendAuthorBooks(data){
+  data["books"].forEach(function(book){
+    let newBook = new Book(book)
+    let bookHTML = newBook.showTemplate()
+    $("#authors_books").append(bookHTML)
   })
 }
 
-//LINK IN HEADER AUTHORS INDEX VIA AJAX
-function authorsIndexLink(){
-  $(document).on('click', 'a.author_index', function(){
-    $.get("/authors").done(function(){
-      $.getJSON("/authors").done(function(data){
-        data.forEach(function(author){
-          let newAuthor = new Author(author)
-          let authorHTML = newAuthor.indexTemplate()
-          $("#authors_container").append(authorHTML)
-        })
-      })
-    })
-  })
+//clear DIVS on show page
+function clearDivs(){
+  document.getElementById("htmlAuthorName").innerHTML = ""
+  document.getElementById("authorName").innerHTML = ""
+  document.getElementById("htmlAuthorBooks").innerHTML = ""
+  document.getElementById("authors_books").innerHTML = ""
 }
 
-//get show page via ajax when click on authors from author index
+//Show Page via AJAX
 function authorsShow(){
   $(document).on('click', 'a.author-show', function(){
     let id = $(this).attr('data-id')
     $.get("/authors/" + id).done(function (){
       $.getJSON("/authors/" + id).done(function(data){
-        document.getElementById("htmlAuthorName").innerHTML = ""
-        document.getElementById("authorName").innerHTML = ""
-        document.getElementById("htmlAuthorBooks").innerHTML = ""
-        document.getElementById("authors_books").innerHTML = ""
-
-        //append author name
-        var newAuthor = new Author(data)
-        var authorHTML = newAuthor.showTemplate()
-        $("#authorName").append(authorHTML)
-
-        //append author books
-        data["books"].forEach(function(book){
-          let newBook = new Book(book)
-          let bookHTML = newBook.showTemplate()
-          $("#authors_books").append(bookHTML)
-          })
+        clearDivs();
+        appendAuthorName(data);
+        appendAuthorBooks(data);
         })
       })
     })
   }
+
+//Next Author Via AJAX
+function nextAuthor(){
+  $(document).on('click', '.js-next', function(e){
+    e.preventDefault();
+    clearDivs();
+    var nextId = parseInt($("a.js-next").attr("data-id")) + 1;
+
+    $.get("/authors/" + nextId + ".json", function(data){
+      appendAuthorName(data);
+      appendAuthorBooks(data);
+      $("a.js-next").attr("data-id", data["id"]);
+    })
+  })
+}
