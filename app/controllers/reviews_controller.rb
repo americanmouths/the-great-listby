@@ -13,12 +13,12 @@ class ReviewsController < ApplicationController
 
   def create
     @review = Review.create(review_params)
-    if @review.save
-      redirect_to book_review_path(params[:book_id], @review.id)
-    else
-      @book = Book.find_by(id: params[:book_id])
-      render :new
-    end
+    #if @review.save
+      #redirect_to book_review_path(params[:book_id], @review.id)
+    #else
+      #@book = Book.find_by(id: params[:book_id])
+      #render :new
+    #end
     render json: @review, status: 201
   end
 
