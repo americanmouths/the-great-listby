@@ -19,6 +19,7 @@ class ReviewsController < ApplicationController
       @book = Book.find_by(id: params[:book_id])
       render :new
     end
+    render json: @review, status: 201
   end
 
   def show
