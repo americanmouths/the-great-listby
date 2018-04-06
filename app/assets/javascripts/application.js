@@ -14,4 +14,5 @@
 //= require jquery.turbolinks
 //= require jquery_ujs
 //= require authors
+//= require reviews
 //= require turbolinks
