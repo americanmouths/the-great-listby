@@ -6,13 +6,14 @@ $(document).ready(function(){
   authorsShow();
 })
 
-///////AUTHOR INDEX///////
+
+//////////////Constructors & Prototypes//////////////
 
 //Author Constructor
-function Author(authorData){
-  this.id = authorData.id
-  this.name = authorData.name
-  this.books = authorData.books
+function Author(data){
+  this.id = data.id
+  this.name = data.name
+  this.books = data.books
 }
 
 //Author Index Prototype
@@ -21,7 +22,7 @@ Author.prototype.indexTemplate = function() {
   <h2><u>${ this.name }</u></h2>
   </a>
   <div id="authors_books-${this.id}"></div>
-  <ul><a href="#" data-id="${this.id}" class="displayBooks" id="books-${this.id}">See Books</a></ul>
+  <ul><a href="#" data-id="${this.id}" class="seeBooks" id="books-${this.id}">See Books</a></ul>
   `
   return authorHTML
 }
@@ -32,6 +33,22 @@ Author.prototype.showTemplate = function() {
   return authorHTML
 }
 
+//Book Constructor
+function Book(data) {
+  this.id = data.id
+  this.title = data.title
+}
+
+//Book prototype
+Book.prototype.showTemplate = function(){
+  let bookHTML = `<ul><a href="/books/${this.id}"><li>${this.title}</li></a></ul>`
+  return bookHTML
+}
+
+
+//////////////Author Index via AJAX//////////////
+
+//Append Author Name to Index
 function appendAuthorIndex(data){
   data.forEach(function(author){
     let newAuthor = new Author(author)
@@ -58,19 +75,19 @@ function authorsIndexLink(){
   })
 }
 
-////DISPLAY BOOKS WITH AJAX ON SAME INDEX PAGE/////
+//Display each Book when See Books link is clicked
 function displayBooks(){
-  $(document).on('click', '.displayBooks', function(e){
+  $(document).on('click', '.seeBooks', function(e){
     e.preventDefault();
     let id = $(this).attr('data-id')
-    $.getJSON(`/authors/${id}.json`, renderBooks)
+    $.getJSON(`/authors/${id}.json`, appendBooks)
   })
 }
 
 //Render each book & hide see book link on click
-function renderBooks(bookData){
-  var authorId = bookData.id
-  bookData["books"].forEach(function(book){
+function appendBooks(data){
+  var authorId = data.id
+  data["books"].forEach(function(book){
     let newBook = new Book(book)
     let bookHTML = newBook.showTemplate()
     $("#authors_books-" + authorId).append(bookHTML)
@@ -78,29 +95,14 @@ function renderBooks(bookData){
   })
 }
 
-//Book Constructor
-function Book(bookData) {
-  this.id = bookData.id
-  this.title = bookData.title
-}
+//////////////Author Show via AJAX//////////////
 
-//Book prototype
-Book.prototype.showTemplate = function(){
-  let bookHTML = `<ul><a href="/books/${this.id}"><li>${this.title}</li></a></ul>`
-  return bookHTML
-}
-
-//////AUTHOR SHOW////////
-
-//Append Author Name to Show Page
-function appendAuthorName(data){
+//Append Author & Books to Show Page
+function appendAuthorsShow(data){
   var newAuthor = new Author(data)
   var authorHTML = newAuthor.showTemplate()
   $("#authorName").append(authorHTML)
-}
 
-//Append Author Books to Show Page
-function appendAuthorBooks(data){
   data["books"].forEach(function(book){
     let newBook = new Book(book)
     let bookHTML = newBook.showTemplate()
@@ -123,8 +125,7 @@ function authorsShow(){
     $.get("/authors/" + id).done(function (){
       $.getJSON("/authors/" + id).done(function(data){
         clearDivs();
-        appendAuthorName(data);
-        appendAuthorBooks(data);
+        appendAuthorsShow(data);
         })
       })
     })
@@ -138,8 +139,7 @@ function nextAuthor(){
     var nextId = parseInt($("a.js-next").attr("data-id")) + 1;
 
     $.get("/authors/" + nextId + ".json", function(data){
-      appendAuthorName(data);
-      appendAuthorBooks(data);
+      appendAuthorsShow(data)
       $("a.js-next").attr("data-id", data["id"]);
     })
   })
