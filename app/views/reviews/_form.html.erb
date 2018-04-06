@@ -8,8 +8,8 @@
   <%= review_fields.label "Rating 1-5" %><br>
   <%= review_fields.number_field :rating %><br><br>
 
-  <%= review_fields.hidden_field :user_id, :value => user.id %>
-  <%= review_fields.hidden_field :book_id, :value => book.id %>
+  <%= review_fields.hidden_field :user_id, :value => user.id, :id => "userId" %>
+  <%= review_fields.hidden_field :book_id, :value => book.id, :id => "bookId" %>
 
   <%= review_fields.submit %>
 <% end %>
