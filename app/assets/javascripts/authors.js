@@ -1,3 +1,11 @@
+$(document).ready(function(){
+  authorsIndex();
+  displayBooks();
+  authorsIndexLink();
+  nextAuthor();
+  authorsShow();
+})
+
 ///////DISPLAYING INDEX///////
 
 //Author constructor
@@ -68,8 +76,8 @@ Book.prototype.showTemplate = function(){
 }
 
 //////NEXT AUTHOR VIA SHOW PAGE/////
-$(function (){
-  $(".js-next").on("click", function(e){
+function nextAuthor(){
+  $(document).on('click', '.js-next', function(e){
     e.preventDefault();
 
     //clear all divs
@@ -79,7 +87,7 @@ $(function (){
     document.getElementById("authors_books").innerHTML = ""
 
     //get next author id
-    var nextId = parseInt($(".js-next").attr("data-id")) + 1;
+    var nextId = parseInt($("a.js-next").attr("data-id")) + 1;
     $.get("/authors/" + nextId + ".json", function(data){
 
       //append author name
@@ -95,19 +103,13 @@ $(function (){
       })
 
       //reset id
-      $(".js-next").attr("data-id", data["id"]);
+      $("a.js-next").attr("data-id", data["id"]);
     })
   })
-})
+}
 
-$(document).ready(function(){
-  authorsIndex();
-  displayBooks();
-})
-
-
-//LINK IN HEADER FOR ALL AUTHORS FIRING AJAX REQ
-$(function (){
+//LINK IN HEADER AUTHORS INDEX VIA AJAX
+function authorsIndexLink(){
   $(document).on('click', 'a.author_index', function(){
     $.get("/authors").done(function(){
       $.getJSON("/authors").done(function(data){
@@ -119,4 +121,31 @@ $(function (){
       })
     })
   })
-})
+}
+
+//get show page via ajax when click on authors from author index
+function authorsShow(){
+  $(document).on('click', 'a.author-show', function(){
+    let id = $(this).attr('data-id')
+    $.get("/authors/" + id).done(function (){
+      $.getJSON("/authors/" + id).done(function(data){
+        document.getElementById("htmlAuthorName").innerHTML = ""
+        document.getElementById("authorName").innerHTML = ""
+        document.getElementById("htmlAuthorBooks").innerHTML = ""
+        document.getElementById("authors_books").innerHTML = ""
+
+        //append author name
+        var newAuthor = new Author(data)
+        var authorHTML = newAuthor.showTemplate()
+        $("#authorName").append(authorHTML)
+
+        //append author books
+        data["books"].forEach(function(book){
+          let newBook = new Book(book)
+          let bookHTML = newBook.showTemplate()
+          $("#authors_books").append(bookHTML)
+          })
+        })
+      })
+    })
+  }
