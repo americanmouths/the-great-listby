@@ -1,12 +1,12 @@
 <h2>Books by
   <div id="authorName"></div>
-  <div id="htmlAuthorName"><%= @author.name %></div>
+  <div id="htmlAuthorName"><u><%= @author.name %></u></div>
 </h2>
 
 <div id="htmlAuthorBooks">
   <ol>
   <% @author.books.each do |book| %>
-      <%= link_to book.title, book_path(book.id) %>
+      <li><%= link_to book.title, book_path(book.id) %></li>
   <% end %>
   </ol>
 </div>
