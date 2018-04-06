@@ -6,7 +6,6 @@ $(document).ready(function(){
   authorsShow();
 })
 
-
 //////////////Constructors & Prototypes//////////////
 
 //Author Constructor
