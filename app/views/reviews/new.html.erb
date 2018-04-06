@@ -2,3 +2,8 @@
 
 <h2>Add A Review for "<%= @book.title %>"</h2>
 <%= render partial: "form", locals: {book: @book, review: @review, user: @user} %>
+
+<div id="reviewResult">
+  <h2 id="reviewTitle"></h2>
+  <p id="reviewContent"></p>
+</div>
