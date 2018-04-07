@@ -27,7 +27,7 @@ $(function (){
       method: 'post',
       data: formData,
       success: function(data) {
-        resetformFields();
+        resetFormFields();
         const newReview = new Review(data);
         const showNewReview = newReview.showReview();
         $("div#reviewResult").append(showNewReview)
