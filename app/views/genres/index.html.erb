@@ -2,3 +2,6 @@
 <% @genres.all.each do |genre| %>
   <li><%= link_to genre.name, genre_path(genre) %></li>
 <% end %>
+
+<div id="genre_container">
+</div>
