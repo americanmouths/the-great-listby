@@ -1,17 +1,17 @@
-$(function (){
-  $('form').on('submit', function(e){
-    e.preventDefault();
-    var userId = document.getElementById("userId").value
-    var bookId = document.getElementById("bookId").value
+//Review Constructor
+function Review(data){
+  this.id = data.id
+  this.title = data.title
+  this.content = data.content
+  this.rating = data.rating
+}
 
-    var values = $(this).serialize();
-    var posting = $.post('/books/' + bookId + '/reviews', values);
+//Review Prototype
+Review.prototype.showReview = function(){
+  reviewHTML = `<h2>${this.title}</h2>
+  <p>Content: ${this.content}</p>
+  <p>Rating: ${this.rating}</p>
+  <hr>`
 
-    posting.done(function(data){
-      var review = data;
-      $('#reviewTitle').text(review["title"])
-      $('#reviewContent').text(review["content"])
-      $('#reviewRating').text(review["rating"])
-    })
-  })
-})
+  return reviewHTML
+}
