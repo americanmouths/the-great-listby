@@ -6,6 +6,17 @@
   <hr>
 </center>
 
+<% if @reviews.present? %>
+  <h2>Reviews:</h2>
+  <% @reviews.each do |review| %>
+    <h3><u>Title:</u> <%= review.title %></h3>
+    <p><u>Summary:</u> <%= review.content %></p>
+    <p><u>Rating:</u> <%= review.rating %></p>
+    <p><u>Written By:</u> <%= review.user.email %></p>
+    -------------------------------------------
+  <% end %>
+<% end %>
+
 <% if current_user && @book_on_booklist.present? %>
   <h3>This book appears on these book lists:</h3>
     <% @book_on_booklist.each do |book_list| %>

@@ -35,6 +35,7 @@ class BooksController < ApplicationController
 
   def show
     @book = Book.find_by(id: params[:id])
+    @reviews = @book.reviews
     if current_user
       @book_on_booklist = @book.book_lists.where(user_id: current_user.id)
     end
