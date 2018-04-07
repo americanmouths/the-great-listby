@@ -1,7 +1,9 @@
+<div id="authorShow">
 <h2>Books by
   <div id="authorName"></div>
   <div id="htmlAuthorName"><u><%= @author.name %></u></div>
 </h2>
+</div>
 
 <div id="htmlAuthorBooks">
   <ol>
@@ -15,3 +17,4 @@
 </div>
 
 <a href="#" class="js-next" data-id="<%= @author.id %>"> Next Author</a>
+<div id="authorError"></div>
