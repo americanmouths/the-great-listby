@@ -136,10 +136,25 @@ function nextAuthor(){
     e.preventDefault();
     clearDivs();
     var nextId = parseInt($("a.js-next").attr("data-id")) + 1;
-
-    $.get("/authors/" + nextId + ".json", function(data){
-      appendAuthorsShow(data)
-      $("a.js-next").attr("data-id", data["id"]);
+    const url = "/authors/" + nextId + ".json"
+    $.ajax({
+      url: url,
+      method: 'get',
+      success: function(data){
+        appendAuthorsShow(data)
+        $("a.js-next").attr("data-id", data["id"]);
+      },
+      error: function(response){
+        noNextAuthor();
+      }
     })
   })
+}
+
+//When the next button has no author to render
+function noNextAuthor(){
+  $('.js-next').hide();
+  $('#authorShow').hide();
+  const html = "<p>Sorry there is no next author</p>"
+  $("#authorError").append(html)
 }
