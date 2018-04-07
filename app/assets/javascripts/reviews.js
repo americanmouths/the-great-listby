@@ -6,7 +6,7 @@ function Review(data){
   this.rating = data.rating
 }
 
-//Review Prototype
+//Review Show Prototype
 Review.prototype.showReview = function(){
   reviewHTML = `<h2>${this.title}</h2>
   <p>Content: ${this.content}</p>
