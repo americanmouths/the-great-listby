@@ -1,12 +1,12 @@
 <%= form_for([book, review]) do |review_fields| %>
   <%= review_fields.label :title %><br>
-  <%= review_fields.text_field :title %><br><br>
+  <%= review_fields.text_field :title, :id => "title" %><br><br>
 
   <%= review_fields.label :content %><br>
-  <%= review_fields.text_area :content %><br><br>
+  <%= review_fields.text_area :content, :id => "content" %><br><br>
 
   <%= review_fields.label "Rating 1-5" %><br>
-  <%= review_fields.number_field :rating %><br><br>
+  <%= review_fields.number_field :rating, :id => "rating" %><br><br>
 
   <%= review_fields.hidden_field :user_id, :value => user.id, :id => "userId" %>
   <%= review_fields.hidden_field :book_id, :value => book.id, :id => "bookId" %>
