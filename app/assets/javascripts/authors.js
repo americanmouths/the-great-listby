@@ -43,7 +43,6 @@ Book.prototype.showTemplate = function(){
   return bookHTML
 }
 
-
 //////////////Author Index via AJAX//////////////
 
 //Append Author Name to Index
