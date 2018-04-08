@@ -1,5 +1,4 @@
 $(document).ready(function(){
-  genreIndexLink();
   genreIndex();
 })
 
@@ -25,15 +24,14 @@ function genreIndex(){
 }
 
 //Fire Ajax when Genre Link clicked in Nav Bar
-function genreIndexLink(){
-  $(document).on('click', 'a.genre_index', function(){
-    $.get("/genres").done(function(){
+$(document).on('turbolinks:load', function() {
+  $('a.genre_index').on('click', function(e){
+    e.stopPropagation()
       $.getJSON("/genres").done(function(data){
         appendGenreIndex(data)
-      })
     })
   })
-}
+})
 
 //Append Genre Index to Page
 function appendGenreIndex(data){

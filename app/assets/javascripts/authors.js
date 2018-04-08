@@ -1,7 +1,6 @@
 $(document).ready(function(){
   authorsIndex();
   displayBooks();
-  authorsIndexLink();
   nextAuthor();
   authorsShow();
 })
@@ -64,15 +63,14 @@ function authorsIndex(){
   }
 
 //Author Index via LINK in NAV bar
-function authorsIndexLink(){
-  $(document).on('click', 'a.author_index', function(){
-    $.get("/authors").done(function(){
+$(document).on('turbolinks:load', function() {
+  $('a.author_index').on('click', function(e){
+    e.stopPropagation()
       $.getJSON("/authors").done(function(data){
         appendAuthorIndex(data)
-      })
     })
   })
-}
+})
 
 //Display each Book when See Books link is clicked
 function displayBooks(){
@@ -85,7 +83,7 @@ function displayBooks(){
 
 //Render each book & hide see book link on click
 function appendBooks(data){
-  var authorId = data.id
+  let authorId = data.id
   data["books"].forEach(function(book){
     let newBook = new Book(book)
     let bookHTML = newBook.showTemplate()
@@ -98,8 +96,8 @@ function appendBooks(data){
 
 //Append Author & Books to Show Page
 function appendAuthorsShow(data){
-  var newAuthor = new Author(data)
-  var authorHTML = newAuthor.showTemplate()
+  let newAuthor = new Author(data)
+  let authorHTML = newAuthor.showTemplate()
   $("#authorName").append(authorHTML)
 
   data["books"].forEach(function(book){
@@ -135,7 +133,7 @@ function nextAuthor(){
   $(document).on('click', '.js-next', function(e){
     e.preventDefault();
     clearDivs();
-    var nextId = parseInt($("a.js-next").attr("data-id")) + 1;
+    let nextId = parseInt($("a.js-next").attr("data-id")) + 1;
     const url = "/authors/" + nextId + ".json"
     $.ajax({
       url: url,
