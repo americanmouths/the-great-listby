@@ -1,6 +1,7 @@
 <h1>Authors</h1>
 
 <% @authors.all.each do |author| %>
+  <li><%= link_to author.name, author_path(author) %></li>
 <% end %>
 
 <div id="authors_container">
