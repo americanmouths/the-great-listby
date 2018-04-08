@@ -2,7 +2,6 @@ $(document).ready(function(){
   authorsIndex();
   displayBooks();
   nextAuthor();
-  authorsShow();
 })
 
 //////////////Constructors & Prototypes//////////////
@@ -115,17 +114,16 @@ function clearDivs(){
 }
 
 //Show Page via AJAX
-function authorsShow(){
-  $(document).on('click', 'a.author-show', function(){
+$(document).on('turbolinks:load', function() {
+  $('a.author-show').on('click', function(e){
+    e.stopPropagation()
     let id = $(this).attr('data-id')
-    $.get("/authors/" + id).done(function (){
       $.getJSON("/authors/" + id).done(function(data){
         clearDivs();
-        appendAuthorsShow(data);
-        })
-      })
+        appendAuthorShow(data)
     })
-  }
+  })
+})
 
 //Next Author Via AJAX
 function nextAuthor(){
