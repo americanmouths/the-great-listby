@@ -18,7 +18,7 @@ Review.prototype.showReview = function(){
 
 //Submit New Review Via Ajax
 $(function (){
-  $('form').on('submit', function(e){
+  $(document).on('submit', '#new_review', function(e){
     e.preventDefault();
     const formPostUrl = $(this).attr("action")
     const formData = $(this).serialize();
