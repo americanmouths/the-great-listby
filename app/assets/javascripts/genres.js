@@ -3,7 +3,6 @@ $(document).ready(function(){
 })
 
 //Genre Constructor
-
 function Genre(data){
   this.id = data.id
   this.name = data.name
