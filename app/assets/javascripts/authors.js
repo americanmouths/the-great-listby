@@ -30,6 +30,7 @@ Author.prototype.showTemplate = function() {
   return authorHTML
 }
 
+//Prototype for when "See Books" is clicked
 Author.prototype.showBooks = function(){
   let authorId = this.id
   this.books.forEach(function(book){
@@ -88,7 +89,7 @@ function displayBooks(){
   })
 }
 
-//Render each book & hide see book link on click
+//Create author object and call showBooks() prototype on
 function appendBooks(data){
   let authorId = data.id
   let newAuthor = new Author(data)
@@ -102,10 +103,13 @@ function appendAuthorsShow(data){
   let newAuthor = new Author(data)
   let authorHTML = newAuthor.showTemplate()
   $("#authorName").append(authorHTML)
+  newAuthor.booksOnShow();
+}
 
-  data["books"].forEach(function(book){
-    let newBook = new Book(book)
-    let bookHTML = newBook.showTemplate()
+//Author prototype for displaying books on show page
+Author.prototype.booksOnShow = function(){
+  this.books.forEach(function(book){
+    let bookHTML = `<ul><a href="/books/${book.id}"><li>${book.title}</li></a></ul>`
     $("#authors_books").append(bookHTML)
   })
 }
