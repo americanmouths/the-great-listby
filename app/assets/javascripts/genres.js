@@ -30,7 +30,7 @@ Genre.prototype.showBooksOnIndex = function(){
 
 //Get Req to Genres
 function genreIndex(){
-  $.getJSON("/genres").done(function(data){
+  $.get("/genres.json").done(function(data){
     appendGenreIndex(data)
   })
 }
@@ -39,7 +39,7 @@ function genreIndex(){
 $(document).on('turbolinks:load', function() {
   $('a.genre_index').on('click', function(e){
     e.stopPropagation()
-      $.getJSON("/genres").done(function(data){
+      $.get("/genres.json").done(function(data){
         appendGenreIndex(data)
     })
   })
@@ -59,7 +59,7 @@ function displayGenreBooks(){
   $(document).on('click', '.seeBooks', function(e){
     e.preventDefault();
     let id = $(this).attr('data-id')
-    $.getJSON(`/genres/${id}.json`, appendGenreBooks)
+    $.get(`/genres/${id}.json`, appendGenreBooks)
   })
 }
 

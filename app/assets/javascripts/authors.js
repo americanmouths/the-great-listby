@@ -38,7 +38,7 @@ Author.prototype.showBooks = function(){
 
 //Author Index
 function authorsIndex(){
-  $.getJSON("/authors").done(function(data){
+  $.get("/authors.json").done(function(data){
     appendAuthorIndex(data)
     })
   }
@@ -47,7 +47,7 @@ function authorsIndex(){
 $(document).on('turbolinks:load', function() {
   $('a.author_index').on('click', function(e){
     e.stopPropagation()
-      $.getJSON("/authors").done(function(data){
+      $.get("/authors.json").done(function(data){
         appendAuthorIndex(data)
     })
   })
@@ -67,7 +67,7 @@ function displayBooks(){
   $(document).on('click', '.seeBooks', function(e){
     e.preventDefault();
     let id = $(this).attr('data-id')
-    $.getJSON(`/authors/${id}.json`, appendBooks)
+    $.get(`/authors/${id}.json`, appendBooks)
   })
 }
 
@@ -85,7 +85,7 @@ $(document).on('turbolinks:load', function() {
   $('a.author-show').on('click', function(e){
     e.stopPropagation()
     let id = $(this).attr('data-id')
-      $.getJSON("/authors/" + id).done(function(data){
+      $.get("/authors/" + id + ".json").done(function(data){
         clearDivs();
         appendAuthorShow(data)
     })
