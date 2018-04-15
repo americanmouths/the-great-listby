@@ -34,18 +34,6 @@ Author.prototype.showBooks = function(){
   })
 }
 
-//Book Constructor
-function Book(data) {
-  this.id = data.id
-  this.title = data.title
-}
-
-//Book prototype
-Book.prototype.showTemplate = function(){
-  let bookHTML = `<ul><a href="/books/${this.id}"><li>${this.title}</li></a></ul>`
-  return bookHTML
-}
-
 //////////////Author Index via AJAX//////////////
 
 //Author Index

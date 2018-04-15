@@ -7,6 +7,7 @@ $(document).ready(function(){
 function Genre(data){
   this.id = data.id
   this.name = data.name
+  this.books = data.books
 }
 
 //Genre Index Prototype
@@ -15,6 +16,16 @@ Genre.prototype.indexTemplate = function(){
   <div id="genre_books-${this.id}"></div>
   <ul><a href="#" data-id="${this.id}" class="seeBooks" id="books-${this.id}">See Books In This Genre</a></ul>`
   return genreHTML
+}
+
+//Genre books when "See Books" link clicked
+Genre.prototype.showBooksOnIndex = function(){
+  let genreId = this.id
+  this.books.forEach(function(book){
+    let bookHTML = `<ul><a href="/books/${book.id}"><li>${book.title}</li></a></ul>`
+    $("#genre_books-" + genreId).append(bookHTML)
+    $("a#books-" + genreId).hide();
+  })
 }
 
 //Get Req to Genres
@@ -52,13 +63,8 @@ function displayGenreBooks(){
   })
 }
 
-//Render each book & hide see book link on click
+//Create object and call prototype on it
 function appendGenreBooks(data){
-  let genreId = data.id
-  data["books"].forEach(function(book){
-    let newBook = new Book(book)
-    let bookHTML = newBook.showTemplate()
-    $("#genre_books-" + genreId).append(bookHTML)
-    $("a#books-" + genreId).hide();
-  })
+  let newGenre = new Genre(data)
+  newGenre.showBooksOnIndex();
 }
