@@ -13,7 +13,5 @@
 //= require jquery3
 //= require jquery.turbolinks
 //= require jquery_ujs
-//= require authors
-//= require reviews
-//= require genres
 //= require turbolinks
+//= require_tree .
