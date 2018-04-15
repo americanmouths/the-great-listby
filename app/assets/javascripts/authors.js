@@ -24,12 +24,6 @@ Author.prototype.indexTemplate = function() {
   return authorHTML
 }
 
-//Author Show Prototype
-Author.prototype.showTemplate = function() {
-  let authorHTML = `<u>${ this.name }</u>`
-  return authorHTML
-}
-
 //Prototype for when "See Books" is clicked
 Author.prototype.showBooks = function(){
   let authorId = this.id
@@ -54,15 +48,6 @@ Book.prototype.showTemplate = function(){
 
 //////////////Author Index via AJAX//////////////
 
-//Append Author Name to Index
-function appendAuthorIndex(data){
-  data.forEach(function(author){
-    let newAuthor = new Author(author)
-    let authorHTML = newAuthor.indexTemplate()
-    $("#authors_container").append(authorHTML)
-  })
-}
-
 //Author Index
 function authorsIndex(){
   $.getJSON("/authors").done(function(data){
@@ -79,6 +64,15 @@ $(document).on('turbolinks:load', function() {
     })
   })
 })
+
+//Append Author Name to Index
+function appendAuthorIndex(data){
+  data.forEach(function(author){
+    let newAuthor = new Author(author)
+    let authorHTML = newAuthor.indexTemplate()
+    $("#authors_container").append(authorHTML)
+  })
+}
 
 //Display each Book when See Books link is clicked
 function displayBooks(){
@@ -98,16 +92,28 @@ function appendBooks(data){
 
 //////////////Author Show via AJAX//////////////
 
-//Append Author & Books to Show Page
+//Show Page via AJAX
+$(document).on('turbolinks:load', function() {
+  $('a.author-show').on('click', function(e){
+    e.stopPropagation()
+    let id = $(this).attr('data-id')
+      $.getJSON("/authors/" + id).done(function(data){
+        clearDivs();
+        appendAuthorShow(data)
+    })
+  })
+})
+
+//Take in data from author show and append to page
 function appendAuthorsShow(data){
   let newAuthor = new Author(data)
-  let authorHTML = newAuthor.showTemplate()
-  $("#authorName").append(authorHTML)
   newAuthor.booksOnShow();
 }
 
 //Author prototype for displaying books on show page
 Author.prototype.booksOnShow = function(){
+  let authorHTML = `<u>${ this.name }</u>`
+  $("#authorName").append(authorHTML)
   this.books.forEach(function(book){
     let bookHTML = `<ul><a href="/books/${book.id}"><li>${book.title}</li></a></ul>`
     $("#authors_books").append(bookHTML)
@@ -121,18 +127,6 @@ function clearDivs(){
   document.getElementById("htmlAuthorBooks").innerHTML = ""
   document.getElementById("authors_books").innerHTML = ""
 }
-
-//Show Page via AJAX
-$(document).on('turbolinks:load', function() {
-  $('a.author-show').on('click', function(e){
-    e.stopPropagation()
-    let id = $(this).attr('data-id')
-      $.getJSON("/authors/" + id).done(function(data){
-        clearDivs();
-        appendAuthorShow(data)
-    })
-  })
-})
 
 //Next Author Via AJAX
 function nextAuthor(){
