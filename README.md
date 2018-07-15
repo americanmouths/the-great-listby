@@ -1,14 +1,9 @@
-# README
-<h1> The Great Listby </h1>
+# THE GREAT LISTBY
 
 This is a free Ruby on Rails application for managing book lists.
 
-<h2> Installation </h1>
-1. Fork this repository & clone into it from your terminal<br>
-2. CD into the application<br>
-3. Make sure to run 'bundle install' to install all required gem dependencies<br>
-4. Run 'rake db:migrate'<br>
-5. Run 'rails s' and navigate to the localhost port displayed in your terminal.<br>
+<h2>Usage</h2>
+<p>https://the-great-listby.herokuapp.com/</p>
 
 <h3> Contributors  </h3>
 Thank you for taking an interest in contributing to The Great Listby.  To contribute please:<br>
