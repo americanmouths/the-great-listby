@@ -63,6 +63,24 @@ function displayGenreBooks(){
   })
 }
 
+
+$(document).on('turbolinks:load', function() {
+  $(document).on('click', ".js-filter", function(e){
+    e.preventDefault();
+    $("#genres_container").empty()
+    $.get("/genres.json").done(function(data){
+      data.forEach(function(genre){
+        if (genre.books.length >= 2){
+          let newGenre = new Genre(genre)
+          let genreHTML = newGenre.indexTemplate()
+          $("#genres_container").append(genreHTML)
+        }
+      })
+    })
+  })
+})
+
+
 //Create object and call prototype on it
 function appendGenreBooks(data){
   let newGenre = new Genre(data)
