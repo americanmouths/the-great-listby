@@ -3,7 +3,7 @@
 This is a free Ruby on Rails application for managing book lists.
 
 <h2>Usage</h2>
-<p>https://the-great-listby.herokuapp.com/</p>
+<p>Visit https://the-great-listby.herokuapp.com/ to use live app</p>
 
 <h3> Contributors  </h3>
 Thank you for taking an interest in contributing to The Great Listby.  To contribute please:<br>
